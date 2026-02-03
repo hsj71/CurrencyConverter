@@ -32,9 +32,9 @@ Fully responsive
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/4.png" width="15%" />
-  <img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/5.png" width="15%" />
-  <img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/6.png" width="15%" />
+  <img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/4.png" width="25%" />
+  <img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/5.png" width="25%" />
+  <img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/6.png" width="25%" />
 </p>
 ---
 
