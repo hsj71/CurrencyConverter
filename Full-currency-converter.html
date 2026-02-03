@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Global Currency Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1d2671, #c33764);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .app {
+      background: #fff;
+      padding: 28px;
+      width: 420px;
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    h2 { margin-bottom: 20px; color: #333; }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background: #6a11cb;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: bold;
+    }
+    button:hover { background: #2575fc; }
+    .swap {
+      background: #f3f3f3;
+      color: #333;
+    }
+    .result {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .footer {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <h2>🌍 Global Currency Converter</h2>
+
+  <input type="number" id="amount" value="1" placeholder="Enter amount">
+
+  <select id="fromCurrency"></select>
+  <select id="toCurrency"></select>
+
+  <button class="swap" onclick="swapCurrencies()">🔁 Swap</button>
+  <button onclick="convertCurrency()">Convert</button>
+
+  <div class="result" id="result">Converted Amount</div>
+  <div class="footer">Live Exchange Rates • 150+ Currencies</div>
+</div>
+
+<script>
+const API_URL = "https://api.exchangerate-api.com/v4/latest/USD";
+
+// Currency → Country Name map (partial but covers most)
+const currencyCountryMap = {
+  USD:"United States", EUR:"Eurozone", GBP:"United Kingdom", INR:"India", JPY:"Japan",
+  CNY:"China", RUB:"Russia", AUD:"Australia", CAD:"Canada", CHF:"Switzerland",
+  NZD:"New Zealand", SGD:"Singapore", HKD:"Hong Kong", SEK:"Sweden", NOK:"Norway",
+  DKK:"Denmark", PLN:"Poland", CZK:"Czech Republic", HUF:"Hungary", TRY:"Turkey",
+  BRL:"Brazil", ARS:"Argentina", MXN:"Mexico", COP:"Colombia", CLP:"Chile",
+  ZAR:"South Africa", NGN:"Nigeria", KES:"Kenya", GHS:"Ghana", EGP:"Egypt",
+  SAR:"Saudi Arabia", AED:"United Arab Emirates", QAR:"Qatar", KWD:"Kuwait",
+  OMR:"Oman", BHD:"Bahrain", ILS:"Israel", IRR:"Iran", PKR:"Pakistan",
+  BDT:"Bangladesh", LKR:"Sri Lanka", NPR:"Nepal", IDR:"Indonesia", MYR:"Malaysia",
+  THB:"Thailand", VND:"Vietnam", PHP:"Philippines", KRW:"South Korea", TWD:"Taiwan",
+  UAH:"Ukraine", RON:"Romania", BGN:"Bulgaria", HRK:"Croatia", ISK:"Iceland",
+  JMD:"Jamaica", TTD:"Trinidad and Tobago", MAD:"Morocco", TND:"Tunisia",
+  DZD:"Algeria", ETB:"Ethiopia", UGX:"Uganda", ZMW:"Zambia", MUR:"Mauritius",
+  FJD:"Fiji", PGK:"Papua New Guinea", WST:"Samoa", TOP:"Tonga"
+};
+
+let rates = {};
+
+async function loadCurrencies() {
+  const res = await fetch(API_URL);
+  const data = await res.json();
+  rates = data.rates;
+
+  const from = document.getElementById("fromCurrency");
+  const to = document.getElementById("toCurrency");
+
+  for (let code in rates) {
+    const country = currencyCountryMap[code] || "Unknown";
+    const opt1 = document.createElement("option");
+    opt1.value = code;
+    opt1.textContent = `${code} (${country})`;
+
+    const opt2 = opt1.cloneNode(true);
+
+    from.appendChild(opt1);
+    to.appendChild(opt2);
+  }
+
+  from.value = "USD";
+  to.value = "INR";
+}
+
+function convertCurrency() {
+  const amount = document.getElementById("amount").value;
+  const from = document.getElementById("fromCurrency").value;
+  const to = document.getElementById("toCurrency").value;
+
+  const usdAmount = amount / rates[from];
+  const converted = usdAmount * rates[to];
+
+  document.getElementById("result").textContent =
+    `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
+}
+
+function swapCurrencies() {
+  const from = document.getElementById("fromCurrency");
+  const to = document.getElementById("toCurrency");
+  [from.value, to.value] = [to.value, from.value];
+  convertCurrency();
+}
+
+loadCurrencies();
+</script>
+
+</body>
+</html>
