@@ -31,7 +31,7 @@ Fully responsive
 ```
 ---
 
-<div align="center">
+<div>
   <p><img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/4.png" width="20%" alt="Currency 4"></p>
   <p><img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/5.png" width="20%" alt="Currency 5"></p>
   <p><img src="https://raw.githubusercontent.com/hsj71/CurrencyConverter/main/6.png" width="20%" alt="Currency 6"></p>
